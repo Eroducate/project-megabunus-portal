@@ -10,7 +10,7 @@
           @click="navigateToLevel(level.id)"
           :data-id="level.id"
         >
-          <div class="text">{{JSON.parse(level.name).cn}}</div>
+          <div class="text">{{JSON.parse(level.localization).cn}}</div>
         </div>
         <el-button type="info" icon="el-icon-plus" circle @click="dialogFormVisible = true"></el-button>
       </div>
