@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 Vue.use(Vuex)
 
-var url = 'http://39.98.51.49:8989'
+var url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
     level: {
@@ -142,9 +142,10 @@ const store = new Vuex.Store({
       console.log('getting level')
       axios.get(url + '/level?id=' + args).then((res) => {
         console.log("got level!")
-        state.level.id = res.data[0]
-        state.level.localization = JSON.parse(res.data[1])
-        state.level.clips = JSON.parse(res.data[2])
+        console.log(res.data)
+        state.level.id = JSON.parse(res.data.id)
+        state.level.localization = JSON.parse(res.data.name)
+        state.level.clips = JSON.parse(res.data.level)
       })
     },
     GET_LEVELS(state) {

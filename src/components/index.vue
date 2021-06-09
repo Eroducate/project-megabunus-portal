@@ -240,7 +240,7 @@ export default {
         layout: {
           improvedLayout: true,
           hierarchical: {
-            enabled: false,
+            enabled: true,
             levelSeparation: 150,
             nodeSpacing: 100,
             treeSpacing: 200,
