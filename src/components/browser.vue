@@ -5,14 +5,28 @@
       <div class="levelsHolder">
         <div
           class="levelHolder"
-          v-for="(level,index) in levels"
+          v-for="(level, index) in levels"
           :key="index"
           @click="navigateToLevel(level.id)"
           :data-id="level.id"
         >
-          <div class="text">{{JSON.parse(level.localization).cn}}</div>
+          <div class="text">{{ JSON.parse(level.localization).cn }}</div>
         </div>
-        <el-button type="info" icon="el-icon-plus" circle @click="dialogFormVisible = true"></el-button>
+        <el-button
+          type="info"
+          icon="el-icon-plus"
+          circle
+          @click="dialogFormVisible = true"
+        ></el-button>
+      </div>
+      <el-button @click="navigateToSettings()">MISC</el-button>
+      <el-button>STAT</el-button>//TODO
+      <div class="foot">
+        <el-button type="info" icon="el-icon-setting" circle></el-button>//TODO
+        <el-tooltip effect="dark" content="Log off" placement="top">
+          <el-button type="warning" icon="el-icon-user" circle></el-button
+          >//TODO
+        </el-tooltip>
       </div>
     </div>
     <el-dialog title="Create Level" :visible.sync="dialogFormVisible">
@@ -41,7 +55,6 @@ export default {
     this.$store.store.dispatch("getLevels").then(() => {
       setTimeout(() => {
         this.levels = this.$store.store.state.levels;
-        //console.log(this.levels);
       }, 200);
     });
   },
@@ -49,6 +62,10 @@ export default {
     navigateToLevel(id) {
       sessionStorage.setItem("levelId", id);
       sessionStorage.setItem("showLevelDetail", true);
+      location.reload();
+    },
+    navigateToSettings() {
+      sessionStorage.setItem("settings", true);
       location.reload();
     },
     createLevel() {
@@ -105,6 +122,10 @@ export default {
   box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.16);
 }
 
+.levelHolder:hover{
+  opacity: 0.8;
+}
+
 .container {
   position: absolute;
   top: 0;
@@ -125,5 +146,12 @@ export default {
   font-weight: bold;
   color: rgb(0, 0, 0);
   line-height: 2.25;
+}
+
+.foot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 20px;
 }
 </style>

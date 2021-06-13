@@ -6,73 +6,9 @@ Vue.use(Vuex)
 var url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
-    level: {
-      localization:{
-        cn:"",
-        en:""
-      },
-      clips: [{
-        playList: ["https://a.com/a.mp4", "https://a.com/b.mp4"],
-        isEnding: false,
-        choices: [{
-          keyName: "1第一选项",
-          nextClipNum: 1,
-          correctness: true
-        },
-        {
-          keyName: "1第二选项",
-          nextClipNum: 2,
-          correctness: false
-        },
-        {
-          keyName: "1第三选项",
-          nextClipNum: 3,
-          correctness: false
-        }
-        ]
-      },
-      {
-        playList: [],
-        isEnding: false,
-        choices: [{
-          keyName: "2第一选项",
-          nextClipNum: 3,
-          correctness: true
-        },
-        {
-          keyName: "2第二选项",
-          nextClipNum: 3,
-          correctness: false
-        }
-        ]
-      },
-      {
-        playList: [],
-        isEnding: false,
-        choices: [{
-          keyName: "3第一选项",
-          nextClipNum: 3,
-          correctness: true
-        },
-        {
-          keyName: "3第二选项",
-          nextClipNum: 3,
-          correctness: false
-        }
-        ]
-      },
-      {
-        playList: [],
-        isEnding: true,
-        choices: [{
-          keyName: "4第一选项",
-          nextClipNum: 1,
-          correctness: true
-        }]
-      }
-      ]
-    },
-    levels: []
+    level: {},
+    levels: [],
+    settings: [],
   },
   actions: {
     register(context, args) {
@@ -99,6 +35,22 @@ const store = new Vuex.Store({
     updateLevel(context, args) {
       this.commit("UPDATE_LEVEL", args)
     },
+    getSettings() {
+      this.commit("GET_SETTINGS")
+    },
+    deleteSetting(context, args){
+      this.commit("DELETE_SETTING", args)
+    },
+    uploadSetting({
+      commit
+    }, args) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          commit("UPLOAD_SETTING", args)
+          resolve()
+        }, 1000)
+      })
+    },
     upload({
       commit
     }) {
@@ -118,8 +70,10 @@ const store = new Vuex.Store({
         choices: [{
           keyName: "",
           correctness: true,
-          nextClipNum: 0
-        }]
+          nextClipNum: 0,
+          choosed_count: 0,
+        }],
+        collectibles: [],
       })
     },
     REGISTER(state, args) {
@@ -157,15 +111,16 @@ const store = new Vuex.Store({
     },
     CREATE_LEVEL(state, args) {
       var defautLevel = {
-        localization:{
-          cn:"",
-          en:""
+        played_count: 0,
+        localization: {
+          cn: "",
+          en: ""
         },
         clips: [{
           name: "Clip1",
-          localization:{
-            cn:"",
-            en:""
+          localization: {
+            cn: "",
+            en: ""
           },
           playList: [],
           isEnding: false,
@@ -177,7 +132,8 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           },
           {
             keyName: "CLIP1_CHOICE1",
@@ -186,7 +142,8 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           },
           {
             keyName: "CLIP1_CHOICE2",
@@ -195,9 +152,11 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           }
-          ]
+          ],
+          collectibles: [],
         },
         {
           name: "Clip2",
@@ -211,7 +170,8 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           },
           {
             keyName: "CLIP2_CHOICE1",
@@ -220,9 +180,11 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           }
-          ]
+          ],
+          collectibles: [],
         },
         {
           name: "Clip3",
@@ -236,7 +198,8 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           },
           {
             keyName: "CLIP3_CHOICE1",
@@ -245,9 +208,11 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
+            },
+            choosed_count: 0,
           }
-          ]
+          ],
+          collectibles: [],
         },
         {
           name: "Clip4",
@@ -261,8 +226,10 @@ const store = new Vuex.Store({
             localization: {
               cn: "",
               en: ""
-            }
-          }]
+            },
+            choosed_count: 0,
+          }],
+          collectibles: [],
         }
         ]
       }
@@ -281,6 +248,32 @@ const store = new Vuex.Store({
         console.log(res)
       })
     },
+    GET_SETTINGS(state) {
+      console.log('getting settings')
+      axios.get(url + '/settings').then((res) => {
+        console.log("got settings")
+        
+        for (let index = 0; index < res.data.length; index++){
+          res.data[index].localization = JSON.parse(res.data[index].localization)
+        }
+        state.settings = res.data
+        console.log(state.settings)
+      })
+    },
+    DELETE_SETTING(state, args) {
+      axios.delete(url + '/settings?id=' + args).then((res) => {
+        console.log(res)
+      })
+    },
+    UPLOAD_SETTING(state, args) {
+      var jsonSetting = JSON.stringify(args)
+      console.log(jsonSetting)
+      axios.post(url + '/settings', jsonSetting)
+        .then((res) => {
+          console.log(res)
+        })
+    },
+    
     UPLOAD(state) {
       var jsonLevel = JSON.stringify(state.level)
       console.log(jsonLevel)
