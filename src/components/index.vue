@@ -319,16 +319,12 @@ export default {
   data() {
     return {
       level: {
+        id: "00000",
         localization: {
           cn: "",
           en: "",
         },
-        clips: [
-          {
-            playList: ["https://a.com/a.mp4", "https://a.com/b.mp4"],
-            isEnding: true,
-          },
-        ],
+        clips: [],
       },
       currentClipIndex: 0,
       isEditClip: false,

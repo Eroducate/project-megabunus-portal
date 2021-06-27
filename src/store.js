@@ -6,7 +6,37 @@ Vue.use(Vuex)
 var url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
-    level: {},
+    level: {
+      localization:{
+        cn:"",
+        en:""
+      },
+      clips: [{
+        playList: ["https://a.com/a.mp4", "https://a.com/b.mp4"],
+        isEnding: false,
+        choices: [{
+          keyName: "1第一选项",
+          nextClipNum: 1,
+          correctness: true,
+          choosed_count: 0,
+        },
+        {
+          keyName: "1第二选项",
+          nextClipNum: 2,
+          correctness: false,
+          choosed_count: 0,
+        },
+        {
+          keyName: "1第三选项",
+          nextClipNum: 3,
+          correctness: false,
+          choosed_count: 0,
+        }
+        ],
+        collectibles: [],
+      },
+      ]
+    },
     levels: [],
     settings: [],
   },
@@ -118,10 +148,6 @@ const store = new Vuex.Store({
         },
         clips: [{
           name: "Clip1",
-          localization: {
-            cn: "",
-            en: ""
-          },
           playList: [],
           isEnding: false,
           importance: 1,
