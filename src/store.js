@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 Vue.use(Vuex)
 
-var url = 'http://127.0.0.1:5000'
+const url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
     level: {
