@@ -20,6 +20,7 @@
         ></el-button>
       </div>
       <el-button @click="navigateToSettings()">MISC</el-button>
+       <el-button @click="navigateToAchievements()">ACHIEVEMENT</el-button>
       <el-button>STAT</el-button>//TODO
       <div class="foot">
         <el-button type="info" icon="el-icon-setting" circle></el-button>//TODO
@@ -66,6 +67,10 @@ export default {
     },
     navigateToSettings() {
       sessionStorage.setItem("settings", true);
+      location.reload();
+    },
+    navigateToAchievements() {
+      sessionStorage.setItem("achievements", true);
       location.reload();
     },
     createLevel() {

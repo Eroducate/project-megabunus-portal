@@ -7,9 +7,9 @@ const url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
     level: {
-      localization:{
-        cn:"",
-        en:""
+      localization: {
+        cn: "",
+        en: ""
       },
       clips: [{
         playList: ["https://a.com/a.mp4", "https://a.com/b.mp4"],
@@ -68,7 +68,7 @@ const store = new Vuex.Store({
     getSettings() {
       this.commit("GET_SETTINGS")
     },
-    deleteSetting(context, args){
+    deleteSetting(context, args) {
       this.commit("DELETE_SETTING", args)
     },
     uploadSetting({
@@ -77,6 +77,22 @@ const store = new Vuex.Store({
       return new Promise((resolve) => {
         setTimeout(() => {
           commit("UPLOAD_SETTING", args)
+          resolve()
+        }, 1000)
+      })
+    },
+    getAchievements() {
+      this.commit("GET_ACHIEVEMENTS")
+    },
+    deleteAchievement (context, args) {
+      this.commit("DELETE_ACHIEVEMENT", args)
+    },
+    uploadAchievement({
+      commit
+    }, args) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          commit("UPLOAD_ACHIEVEMENT", args)
           resolve()
         }, 1000)
       })
@@ -278,8 +294,8 @@ const store = new Vuex.Store({
       console.log('getting settings')
       axios.get(url + '/settings').then((res) => {
         console.log("got settings")
-        
-        for (let index = 0; index < res.data.length; index++){
+
+        for (let index = 0; index < res.data.length; index++) {
           res.data[index].localization = JSON.parse(res.data[index].localization)
         }
         state.settings = res.data
@@ -299,7 +315,42 @@ const store = new Vuex.Store({
           console.log(res)
         })
     },
-    
+    GET_ACHIEVEMENTS(state) {
+      console.log('getting achievements')
+      axios.get(url + '/achievements').then((res) => {
+        console.log("got achievements")
+        for(let index = 0; index < res.data.length; index++){
+          res.data[index].serials = JSON.parse(res.data[index].serials)
+          let arr = res.data[index].condition.split(" ")
+          res.data[index].condition = []
+          for(let j = 0; j < arr.length; j++){
+            res.data[index].condition.push({
+              value: arr[j]
+            })
+          }
+        }
+        
+        
+        state.achievements = res.data
+        console.log(state.achievements)
+      })
+    },
+    UPLOAD_ACHIEVEMENT(state, args) {
+      args.serial = JSON.stringify(args.serial)
+      var jsonAchievement = JSON.stringify(args)
+      console.log(jsonAchievement)
+      axios.post(url + '/achievement', jsonAchievement)
+        .then((res) => {
+          console.log(res)
+        })
+    },
+
+    DELETE_ACHIEVEMENT(state, args) {
+      axios.delete(url + '/achievement?id=' + args).then((res) => {
+        console.log(res)
+      })
+    },
+
     UPLOAD(state) {
       var jsonLevel = JSON.stringify(state.level)
       console.log(jsonLevel)

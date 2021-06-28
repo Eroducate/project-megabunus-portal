@@ -2,6 +2,7 @@
   <div id="app">
     <index v-if="showLevelDetail" />
     <setting v-else-if="settings" />
+    <achievement v-else-if="achievements" />
     <browser v-else-if="isLoggedIn" />
     <login v-else />
   </div>
@@ -12,6 +13,7 @@ import index from "./components/index.vue";
 import login from "./components/login.vue";
 import browser from "./components/browser.vue";
 import setting from "./components/settings.vue";
+import achievement from "./components/achievements.vue";
 import store from "./store.js";
 
 export default({
@@ -22,6 +24,7 @@ export default({
       isLoggedIn: false,
       showLevelDetail: false,
       settings: false,
+      achievements: false,
     };
   },
   beforeMount() {
@@ -36,12 +39,16 @@ export default({
     if (sessionStorage.getItem("settings") == "true") {
       this.settings = true;
     }
+    if (sessionStorage.getItem("achievements") == "true") {
+      this.achievements = true;
+    }
   },
   components: {
     index,
     login,
     browser,
     setting,
+    achievement,
   },
 });
 </script>
