@@ -88,19 +88,25 @@
             placeholder="iOS achievement id"
             type="text"
             v-model="activeAchievement.serials.ios"
-          />
+          >
+           <template slot="prepend">iOS</template>
+          </el-input>
           <el-input
             style="margin-top: 10px"
             placeholder="Android achievement id"
             type="text"
             v-model="activeAchievement.serials.android"
-          />
+          >
+          <template slot="prepend">Android</template>
+          </el-input>
           <el-input
             style="margin-top: 10px"
             placeholder="Steam achievement id"
             type="text"
             v-model="activeAchievement.serials.steam"
-          />
+          >
+          <template slot="prepend">Steam</template>
+          </el-input>
         </el-form-item>
         <el-form-item>
           <el-tooltip effect="dark" content="Delete achievement" placement="top">
