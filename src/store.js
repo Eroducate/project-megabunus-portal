@@ -84,7 +84,7 @@ const store = new Vuex.Store({
     getAchievements() {
       this.commit("GET_ACHIEVEMENTS")
     },
-    deleteAchievement (context, args) {
+    deleteAchievement(context, args) {
       this.commit("DELETE_ACHIEVEMENT", args)
     },
     uploadAchievement({
@@ -131,9 +131,15 @@ const store = new Vuex.Store({
       })
     },
     LOGIN(state, args) {
-      axios.post(url + '/login', args).then((res) => {
+      console.log(args)
+      axios({
+        method: 'GET',
+        url: url + '/login',
+        auth: args
+      }).then((res) => {
         console.log(res.data)
-        if (res.data == "True") {
+        if (res.data.token != "") {
+          sessionStorage.setItem("token", res.data.token);
           sessionStorage.setItem("isLoggedIn", true);
         }
       })
@@ -278,7 +284,12 @@ const store = new Vuex.Store({
       defautLevel.localization.cn = args
       defautLevel = JSON.stringify(defautLevel)
       console.log(defautLevel)
-      axios.post(url + '/level', defautLevel).then((res) => {
+      axios({
+        method: 'POST',
+        url: url + '/level',
+        auth: { username: sessionStorage.getItem("token") },
+        data: defautLevel
+      }).then((res) => {
         console.log(res)
       })
     },
@@ -286,7 +297,11 @@ const store = new Vuex.Store({
       state.level = args
     },
     DELETE_LEVEL(state, args) {
-      axios.delete(url + '/level?id=' + args).then((res) => {
+      axios({
+        method: 'DELETE',
+        url: url + '/level?id=' + args,
+        auth: { username: sessionStorage.getItem("token") },
+      }).then((res) => {
         console.log(res)
       })
     },
@@ -303,34 +318,43 @@ const store = new Vuex.Store({
       })
     },
     DELETE_SETTING(state, args) {
-      axios.delete(url + '/settings?id=' + args).then((res) => {
+      axios({
+        method: 'DELETE',
+        url: url + '/settings?id=' + args,
+        auth: { username: sessionStorage.getItem("token") },
+      }).then((res) => {
         console.log(res)
       })
     },
     UPLOAD_SETTING(state, args) {
       var jsonSetting = JSON.stringify(args)
       console.log(jsonSetting)
-      axios.post(url + '/settings', jsonSetting)
-        .then((res) => {
-          console.log(res)
-        })
+      console.log(sessionStorage.getItem("token"))
+      axios({
+        method: 'POST',
+        url: url + '/settings',
+        auth: { username: sessionStorage.getItem("token") },
+        data: jsonSetting,
+      }).then((res) => {
+        console.log(res)
+      })
     },
     GET_ACHIEVEMENTS(state) {
       console.log('getting achievements')
       axios.get(url + '/achievements').then((res) => {
         console.log("got achievements")
-        for(let index = 0; index < res.data.length; index++){
+        for (let index = 0; index < res.data.length; index++) {
           res.data[index].serials = JSON.parse(res.data[index].serials)
           let arr = res.data[index].condition.split(" ")
           res.data[index].condition = []
-          for(let j = 0; j < arr.length; j++){
+          for (let j = 0; j < arr.length; j++) {
             res.data[index].condition.push({
               value: arr[j]
             })
           }
         }
-        
-        
+
+
         state.achievements = res.data
         console.log(state.achievements)
       })
@@ -339,23 +363,33 @@ const store = new Vuex.Store({
       args.serial = JSON.stringify(args.serial)
       var jsonAchievement = JSON.stringify(args)
       console.log(jsonAchievement)
-      axios.post(url + '/achievement', jsonAchievement)
-        .then((res) => {
-          console.log(res)
-        })
-    },
-
-    DELETE_ACHIEVEMENT(state, args) {
-      axios.delete(url + '/achievement?id=' + args).then((res) => {
+      axios({
+        method: 'POST',
+        url: url + '/achievement',
+        auth: { username: sessionStorage.getItem("token") },
+        data: jsonAchievement
+      }).then((res) => {
         console.log(res)
       })
     },
-
+    DELETE_ACHIEVEMENT(state, args) {
+      axios({
+        method: 'DELETE',
+        url: url + '/achievement?id=' + args,
+        auth: { username: sessionStorage.getItem("token") },
+      }).then((res) => {
+        console.log(res)
+      })
+    },
     UPLOAD(state) {
       var jsonLevel = JSON.stringify(state.level)
       console.log(jsonLevel)
-      axios.post(url + '/level', jsonLevel)
-        .then((res) => {
+      axios({
+        method: 'POST',
+        url: url + '/level',
+        auth: { username: sessionStorage.getItem("token") },
+        data: jsonLevel
+      }).then((res) => {
           console.log(res)
         })
     }

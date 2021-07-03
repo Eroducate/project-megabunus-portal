@@ -25,8 +25,8 @@
       <div class="foot">
         <el-button type="info" icon="el-icon-setting" circle></el-button>//TODO
         <el-tooltip effect="dark" content="Log off" placement="top">
-          <el-button type="warning" icon="el-icon-user" circle></el-button
-          >//TODO
+          <el-button type="warning" icon="el-icon-user" @click="logOff" circle></el-button
+          >
         </el-tooltip>
       </div>
     </div>
@@ -91,6 +91,10 @@ export default {
         });
       }
     },
+    logOff() {
+      sessionStorage.setItem("isLoggedIn", false);
+      location.reload();
+    }
   },
 };
 </script>

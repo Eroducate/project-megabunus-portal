@@ -51,10 +51,10 @@ export default {
   components: {},
   methods: {
     login() {
-      var formattedData = JSON.stringify({
+      var formattedData = {
         username: this.username,
         password: this.password,
-      });
+      };
       this.$store.store.dispatch("login", formattedData).then(() => {
         setTimeout(() => {
           if (sessionStorage.getItem("isLoggedIn")) {
