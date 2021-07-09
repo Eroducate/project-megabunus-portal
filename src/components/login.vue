@@ -76,7 +76,7 @@ export default {
       this.$store.store.dispatch("register", formattedData).then(() => {
         setTimeout(() => {
           if (sessionStorage.getItem("isLoggedIn")) {
-            location.reload();
+            this.login();
           }
         }, 200);
       });
