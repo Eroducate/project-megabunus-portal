@@ -318,14 +318,7 @@ export default {
   store,
   data() {
     return {
-      level: {
-        id: "00000",
-        localization: {
-          cn: "",
-          en: "",
-        },
-        clips: [],
-      },
+      level: this.$store.store.state.level,
       currentClipIndex: 0,
       isEditClip: false,
       isEditLevel: false,
@@ -384,8 +377,6 @@ export default {
         .dispatch("getLevel", sessionStorage.getItem("levelId"))
         .then(() => {
           setTimeout(() => {
-            var level = this.$store.store.state.level;
-            this.level = level;
             this.renderMindMap();
           }, 200);
         });
