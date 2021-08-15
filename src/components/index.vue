@@ -278,6 +278,9 @@
               </el-form-item>
             </el-form-item>
           </el-collapse-item>
+           <el-collapse-item title="Statistics">
+             <pie-chart :key="currentClipIndex" :id="level.id" :index="currentClipIndex" :names="level.clips[currentClipIndex].choices" ></pie-chart>
+           </el-collapse-item>
         </el-collapse>
       </el-form>
     </el-drawer>
@@ -313,6 +316,7 @@
 <script>
 import store from "../store.js";
 import { Loading } from "element-ui";
+import PieChart from "./charts/pie.vue";
 export default {
   name: "index",
   store,
@@ -363,6 +367,7 @@ export default {
     };
   },
   components: {
+    pieChart: PieChart,
     network: require("vue-vis-network").Network,
   },
   beforeMount() {
@@ -372,6 +377,7 @@ export default {
     this.renderMindMap();
   },
   methods: {
+    
     loadLevel() {
       this.$store.store
         .dispatch("getLevel", sessionStorage.getItem("levelId"))
