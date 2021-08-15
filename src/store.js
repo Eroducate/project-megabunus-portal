@@ -6,6 +6,7 @@ Vue.use(Vuex)
 const url = 'http://127.0.0.1:5000'
 const store = new Vuex.Store({
   state: {
+    
     level: {
       localization: {
         cn: "",
@@ -18,25 +19,25 @@ const store = new Vuex.Store({
           keyName: "1第一选项",
           nextClipNum: 1,
           correctness: true,
-          choosed_count: 0,
         },
         {
           keyName: "1第二选项",
           nextClipNum: 2,
           correctness: false,
-          choosed_count: 0,
         },
         {
           keyName: "1第三选项",
           nextClipNum: 3,
           correctness: false,
-          choosed_count: 0,
+
         }
         ],
         collectibles: [],
       },
       ]
     },
+    stat : [],
+    choiceTable: [],
     levels: [],
     settings: [],
   },
@@ -71,6 +72,15 @@ const store = new Vuex.Store({
     deleteSetting(context, args) {
       this.commit("DELETE_SETTING", args)
     },
+    getStat(context,args) {
+      this.commit("GET_STAT", args)
+    },
+    getChoiceTable(context,args) {
+      this.commit("GET_CHOICE_TABLE", args)
+    },
+    // getChoiceDistribution(context,args) {
+    //   this.commit("GET_CHOICE_DISTRIBUTION", args)
+    // },
     uploadSetting({
       commit
     }, args) {
@@ -109,6 +119,7 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    
     ADD_CLIP(state) {
       state.level.clips.push({
         playList: [],
@@ -117,7 +128,6 @@ const store = new Vuex.Store({
           keyName: "",
           correctness: true,
           nextClipNum: 0,
-          choosed_count: 0,
         }],
         collectibles: [],
       })
@@ -161,10 +171,29 @@ const store = new Vuex.Store({
         state.levels = res.data
       })
     },
+    GET_STAT(state) {
+      console.log('getting stats')
+      axios.get(url + '/stat').then((res) => {
+        console.log("Stats Fetched")
+        state.stat = res.data
+      })
+    },
+    GET_CHOICE_TABLE(state,args){
+      axios.get(url+ '/stat/CT?id=' + args).then((res) =>{
+        
+        state.choiceTable = res.data
+        console.log("Choice Table Fetched")
+        
+
+      })
+
+
+    },
     CREATE_LEVEL(state, args) {
+    
       var defautLevel = {
-        played_count: 0,
         localization: {
+        
           cn: "",
           en: ""
         },
@@ -181,7 +210,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           },
           {
             keyName: "CLIP1_CHOICE1",
@@ -191,7 +219,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           },
           {
             keyName: "CLIP1_CHOICE2",
@@ -201,7 +228,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           }
           ],
           collectibles: [],
@@ -219,7 +245,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           },
           {
             keyName: "CLIP2_CHOICE1",
@@ -229,7 +254,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           }
           ],
           collectibles: [],
@@ -247,7 +271,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           },
           {
             keyName: "CLIP3_CHOICE1",
@@ -257,7 +280,6 @@ const store = new Vuex.Store({
               cn: "",
               en: ""
             },
-            choosed_count: 0,
           }
           ],
           collectibles: [],

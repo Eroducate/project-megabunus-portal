@@ -21,7 +21,7 @@
       </div>
       <el-button @click="navigateToSettings()">MISC</el-button>
        <el-button @click="navigateToAchievements()">ACHIEVEMENT</el-button>
-      <el-button>STAT</el-button>//TODO
+      <el-button @click="navigateToStats()">STAT</el-button>//TODO
       <div class="foot">
         <el-button type="info" icon="el-icon-setting" circle></el-button>//TODO
         <el-tooltip effect="dark" content="Log off" placement="top">
@@ -60,6 +60,12 @@ export default {
     });
   },
   methods: {
+    
+    navigateToStats() {
+      sessionStorage.setItem("stats", true);
+      location.reload();
+
+    },
     navigateToLevel(id) {
       sessionStorage.setItem("levelId", id);
       sessionStorage.setItem("showLevelDetail", true);
