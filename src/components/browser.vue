@@ -21,7 +21,7 @@
       </div>
       <el-button @click="navigateToSettings()">MISC</el-button>
        <el-button @click="navigateToAchievements()">ACHIEVEMENT</el-button>
-      <el-button @click="navigateToStats()">STAT</el-button>//TODO
+      <el-button @click="navigateToStats()">STAT</el-button>
       <div class="foot">
         <el-button type="info" icon="el-icon-setting" circle></el-button>//TODO
         <el-tooltip effect="dark" content="Log off" placement="top">
