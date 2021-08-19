@@ -248,7 +248,30 @@
                   v-model="collectible.localization.en"
                   type="text"
                 />
-                <!-- put picture upload here -->
+                <!-- 拿到src index后获取src -->
+                <!-- this.level[clipIndex].collectibles[index].src = src -->
+                <!-- 把src传到游戏里，参考clips -->
+                <!-- 看一下slice的代码，写删除src的方式 -->
+                <div @click="setCollectibleIndex(index)">
+                  <el-upload
+                    class="upload-image"
+                    action="http://127.0.0.1:5000/image"
+                    multiple
+                    :on-preview="handlePreview"
+                    :on-remove="handleRemove"
+                    :limit="1"
+                    :on-success="processSrc"
+                    :auto-upload="true"
+                    list-type="picture"
+                  >
+                    <el-button size="small" type="primary"
+                      >Upload Image</el-button
+                    >
+                    <div slot="tip" class="el-upload__tip">
+                      只能上传jpg/png文件，且不超过500kb
+                    </div>
+                  </el-upload>
+                </div>
               </div>
               <el-form-item>
                 <el-tooltip
@@ -327,6 +350,7 @@ export default {
         clips: [],
       },
       currentClipIndex: 0,
+      currentCollectibleIndex: 0,
       isEditClip: false,
       isEditLevel: false,
       nodes: [],
@@ -438,8 +462,7 @@ export default {
             },
           },
         ],
-        collectibles: [
-        ],
+        collectibles: [],
       });
     },
     editClip(e) {
@@ -486,15 +509,15 @@ export default {
     },
     addCollectible() {
       var clip = this.level.clips[this.currentClipIndex];
-      if(clip.collectibles.length <= 2){
+      if (clip.collectibles.length <= 2) {
         clip.collectibles.push({
-                name: "",
-                localization: {
-                  cn: "",
-                  en: "",
-                },
-                src: "",
-              });
+          name: "",
+          localization: {
+            cn: "",
+            en: "",
+          },
+          src: "",
+        });
       }
     },
     minusCollectible() {
@@ -573,6 +596,26 @@ export default {
           "Json has been printed in the dev console"
         ),
       });
+    },
+    processSrc(response, file, fileList) {
+      console.log(response);
+      console.log(file, fileList);
+      this.level.clips[this.currentClipIndex].collectibles[
+        this.currentCollectibleIndex
+      ].src = file;
+    },
+    setCollectibleIndex(e) {
+      this.currentCollectibleIndex = e;
+      console.log(e);
+    },
+    handlePreview(file) {
+      console.log(file);
+    },
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+      var index = this.correntCollectibleIndex;
+      this.currentCollectibleIndex = 0;
+      this.level.clips[this.currentClipIndex].collectibles.splice(index, 1);
     },
   },
 };
