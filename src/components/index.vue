@@ -248,10 +248,7 @@
                   v-model="collectible.localization.en"
                   type="text"
                 />
-                <!-- 拿到src index后获取src -->
-                <!-- this.level[clipIndex].collectibles[index].src = src -->
-                <!-- 把src传到游戏里，参考clips -->
-                <!-- 看一下slice的代码，写删除src的方式 -->
+                <img :src="collectible.src" alt="" style="width:200px; height:200px;"/>
                 <div @click="setCollectibleIndex(index)">
                   <el-upload
                     class="upload-image"
@@ -267,9 +264,6 @@
                     <el-button size="small" type="primary"
                       >Upload Image</el-button
                     >
-                    <div slot="tip" class="el-upload__tip">
-                      只能上传jpg/png文件，且不超过500kb
-                    </div>
                   </el-upload>
                 </div>
               </div>
@@ -370,7 +364,7 @@ export default {
           improvedLayout: true,
           hierarchical: {
             enabled: true,
-            levelSeparation: 150,
+            levelSeparation: 200,
             nodeSpacing: 100,
             treeSpacing: 200,
             blockShifting: true,
@@ -485,7 +479,7 @@ export default {
         this.currentClipIndex.toString() +
         "_CHOICE" +
         clip.choices.length.toString();
-      if (clip.choices.length <= 2) {
+      if (clip.choices.length <= 4) {
         clip.choices.push({
           keyName: keyName,
           nextClipNum: 0,
@@ -599,7 +593,7 @@ export default {
       console.log(file, fileList);
       this.level.clips[this.currentClipIndex].collectibles[
         this.currentCollectibleIndex
-      ].src = file;
+      ].src = response;
     },
     setCollectibleIndex(e) {
       this.currentCollectibleIndex = e;

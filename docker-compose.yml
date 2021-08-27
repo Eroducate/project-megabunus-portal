@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  backend:
+    image: sfweb-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - /c/Users/calen/Documents/GitHub/project-megabunus/data:/ero_sqlite/data
+  frontend:
+    image: sfweb-frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
