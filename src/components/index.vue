@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <p class="title top" @dblclick="editLevel">{{ level.localization.cn }}</p>
+    <p class="title top" @dblclick="editLevel">
+      {{ level.localization.cn }}
+    </p>
     <div class="bottom">
       <el-tooltip effect="dark" content="Save changes" placement="top">
         <el-button @click="composeLevel">SAVE</el-button>
@@ -153,7 +155,7 @@
             <el-form-item
               :inline="true"
               label="CHOICES"
-              v-if="!level.clips[currentClipIndex].isEnding"
+              v-if="!level.clips[currentClipIndex].isEnding & level.clips"
             >
               <div
                 style="margin-bottom: 10px; margin-top: 10px"
@@ -248,7 +250,11 @@
                   v-model="collectible.localization.en"
                   type="text"
                 />
-                <img :src="collectible.src" alt="" style="width:200px; height:200px;"/>
+                <img
+                  :src="collectible.src"
+                  alt=""
+                  style="width: 200px; height: 200px"
+                />
                 <div @click="setCollectibleIndex(index)">
                   <el-upload
                     class="upload-image"
@@ -295,9 +301,14 @@
               </el-form-item>
             </el-form-item>
           </el-collapse-item>
-           <el-collapse-item title="Statistics">
-             <pie-chart :key="currentClipIndex" :id="level.id" :index="currentClipIndex" :names="level.clips[currentClipIndex].choices" ></pie-chart>
-           </el-collapse-item>
+          <el-collapse-item title="Statistics">
+            <pie-chart
+              :key="currentClipIndex"
+              :id="level.id"
+              :index="currentClipIndex"
+              :names="level.clips[currentClipIndex].choices"
+            ></pie-chart>
+          </el-collapse-item>
         </el-collapse>
       </el-form>
     </el-drawer>
@@ -395,7 +406,6 @@ export default {
     this.renderMindMap();
   },
   methods: {
-    
     loadLevel() {
       this.$store.store
         .dispatch("getLevel", sessionStorage.getItem("levelId"))
