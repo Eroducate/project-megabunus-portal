@@ -144,20 +144,20 @@ const store = new Vuex.Store({
     },
     REGISTER(state, args) {
       axios.post(url + '/register', args).then((res) => {
-        console.log(res.data)
+        
         if (res.data == "User Created") {
           sessionStorage.setItem("isLoggedIn", true);
         }
       })
     },
     LOGIN(state, args) {
-      console.log(args)
+      
       axios({
         method: 'GET',
         url: url + '/login',
         auth: args
       }).then((res) => {
-        console.log(res.data)
+        
         if (res.data.token != "") {
           sessionStorage.setItem("token", res.data.token);
           sessionStorage.setItem("isLoggedIn", true);

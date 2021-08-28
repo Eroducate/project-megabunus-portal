@@ -1,3 +1,5 @@
-FROM nginx
-ADD dist/ /usr/share/nginx/html/
-COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+FROM node
+COPY . /app
+WORKDIR /app
+RUN npm install
+CMD ["npm", "run", "serve"]
