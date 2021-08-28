@@ -155,7 +155,7 @@
             <el-form-item
               :inline="true"
               label="CHOICES"
-              v-if="!level.clips[currentClipIndex].isEnding & level.clips"
+              v-if="!level.clips[currentClipIndex].isEnding & level.clips[currentClipIndex].choices.length > 0"
             >
               <div
                 style="margin-bottom: 10px; margin-top: 10px"
@@ -196,7 +196,9 @@
                   style="width: 100%"
                 />
               </div>
-              <el-form-item>
+              
+            </el-form-item>
+            <el-form-item>
                 <el-tooltip
                   effect="dark"
                   content="Add new choice"
@@ -222,7 +224,6 @@
                   ></el-button>
                 </el-tooltip>
               </el-form-item>
-            </el-form-item>
           </el-collapse-item>
           <el-collapse-item title="Collectible Settings">
             <el-form-item :inline="true" label="COLLECTIBLE">
