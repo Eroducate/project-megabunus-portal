@@ -3,7 +3,8 @@ import Vuex from 'vuex'
 import axios from 'axios'
 Vue.use(Vuex)
 
-const url = 'http://127.0.0.1:5000'
+//dev: http://127.0.0.1:5000 prod: http://39.98.51.49:5000
+const url = 'http://39.98.51.49:5000'
 const store = new Vuex.Store({
   state: {
 
