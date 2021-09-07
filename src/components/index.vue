@@ -259,7 +259,7 @@
                 <div @click="setCollectibleIndex(index)">
                   <el-upload
                     class="upload-image"
-                    action="http://127.0.0.1:5000/image"
+                    action="http://39.98.51.49:5000/image"
                     multiple
                     :on-preview="handlePreview"
                     :on-remove="handleRemove"
