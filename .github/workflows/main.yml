@@ -14,6 +14,6 @@ jobs:
     - id: Build-Vue
       uses: SerhiiKa/VuePagesAction@1.0.4
       with:
-        username: 'MohaElder'
+        username: 'Eroducate'
         reponame: 'project-megabunus-portal'
         token: ${{ secrets.GITHUB_TOKEN }} # Leave this line unchanged
