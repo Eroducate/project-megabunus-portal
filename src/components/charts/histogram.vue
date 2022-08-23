@@ -53,7 +53,7 @@ export default {
             baseSeries: 1,
           },
           {
-            visible: false,
+            visible: true,
             showInLegend: false,
             data: JSON.parse(this.playTime),
           },

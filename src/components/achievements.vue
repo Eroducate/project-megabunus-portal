@@ -268,7 +268,7 @@ export default {
               "Upload success! Please refresh the page to see the saved changes"
             ),
           });
-          location.reload();
+          //location.reload();
         });
     },
     goBackToMainMenu() {

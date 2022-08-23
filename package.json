@@ -10,7 +10,7 @@
   "dependencies": {
     "axios": "^0.21.1",
     "core-js": "^3.6.4",
-    "element-ui": "latest",
+    "element-ui": "^2.15.6",
     "highcharts": "^9.1.2",
     "highcharts-vue": "^1.4.0",
     "vis-data": "^6.5.1",

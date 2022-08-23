@@ -20,7 +20,7 @@
       <div v-for="(stat, index) in stats" :key="index">
         <chart
           class="charts"
-          :title="getCnName(index)"
+          :title="'Level ' + index"
           :playerCount="stat.playerCount"
           :playTime="stat.playTime"
         ></chart>
@@ -53,17 +53,7 @@ export default {
     chart: Chart,
   },
   beforeMount() {
-    this.$store.store
-      .dispatch("getStat")
-      .then(() => {
-        setTimeout(() => {
-          this.stats = this.$store.store.state.stat;
-          this.mapCounts();
-        }, 200);
-      })
-      .then(() => {
-        this.loadLevels();
-      });
+    this.loadLevels();
   },
   methods: {
     mapCounts() {
@@ -77,8 +67,23 @@ export default {
       this.$store.store.dispatch("getLevels").then(() => {
         setTimeout(() => {
           this.levels = this.$store.store.state.levels;
-        }, 200);
+        }, 2000);
+      }).then(()=>{
+        this.loadStats();
       });
+    },
+    loadStats() {
+      let that = this;
+      this.$store.store
+            .dispatch("getStat")
+            .then(() => {
+              setTimeout(() => {
+                that.stats = this.$store.store.state.stat;
+                this.mapCounts();
+                console.log(this.$store.store.state.stat)
+                console.log(that.stats)
+              }, 2000);
+            });
     },
 
     getCnName(id) {
